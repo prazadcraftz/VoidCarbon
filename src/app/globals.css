@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --color-page-bg: #f0faf4;
+  --color-card-surface: #ffffff;
+  --color-card-border: #c8e6d0;
+  --color-brand-cyan: #1a7a4a;
+  --color-brand-blue: #3498db;
+  --color-brand-purple: #f39c12;
+  --color-brand-emerald: #1a7a4a;
+  
+  --color-category-transport: #1a7a4a;
+  --color-category-food: #20b2aa;
+  --color-category-energy: #f39c12;
+  --color-category-consumption: #3498db;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f0faf4;
+  --foreground: #3d5c45;
+  --heading-color: #1a2e1e;
+  --muted-text: #7a9e82;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f0faf4;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8e6d0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a3d4b1;
+}
+
+/* Card primitives */
+.glass-panel {
+  background: #ffffff;
+  border: 1px solid #c8e6d0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-panel-hover:hover {
+  background: #ffffff;
+  border-color: #1a7a4a;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
 }
