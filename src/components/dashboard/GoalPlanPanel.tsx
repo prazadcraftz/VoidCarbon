@@ -56,7 +56,7 @@ export function GoalPlanPanel({ result, goal }: GoalPlanPanelProps) {
       >
         <span className="flex items-center gap-1.5 text-[#1a2e1e]">
           <Sparkles className="h-4 w-4 text-[#1a7a4a]" />
-          AI goal achievement plan
+          {error ? 'Local goal achievement plan' : 'AI goal achievement plan'}
         </span>
         {isOpen ? <ChevronUp className="h-4 w-4 text-[#1a2e1e]" /> : <ChevronDown className="h-4 w-4 text-[#1a2e1e]" />}
       </button>

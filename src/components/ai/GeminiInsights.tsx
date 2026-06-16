@@ -95,7 +95,7 @@ export function GeminiInsights({ result }: GeminiInsightsProps) {
       <div className="flex items-center gap-2 border-b border-[#c8e6d0] pb-3">
         <Sparkles className="h-5 w-5 text-[#1a7a4a]" />
         <h3 id="insights-title" className="text-base font-bold text-[#1a2e1e]">
-          Personalized carbon reduction plan
+          {errorMsg ? 'Local carbon reduction plan' : 'Personalized carbon reduction plan'}
         </h3>
       </div>
 
