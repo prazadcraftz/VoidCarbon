@@ -53,3 +53,38 @@ A 6-step responsive wizard guides the user through assessing their carbon impact
    - Grid emission intensities (e.g., UK grid vs. India grid vs. US grid) are derived from averages.
    - Regional average emissions (e.g., India's average of `1.9 t CO₂e` vs. the Paris Target of `2.1 t CO₂e`) serve as the benchmark comparison.
 3. **Currency Conversion**: Monthly expenditure in the consumption section assumes local currency equivalents (e.g. ₹ for India, £ for the UK, € for Germany, $ for the US) to maintain localized pricing relevance.
+
+---
+
+## 📂 Project Structure
+
+```text
+VoidCarbon/
+├── public/                 # Static brand assets and logo vectors
+├── src/
+│   ├── app/                # Next.js App Router (views, pages, layouts)
+│   │   ├── calculator/     # Multi-step calculator route
+│   │   ├── dashboard/      # User metrics dashboard route
+│   │   ├── globals.css     # Global light-theme CSS configuration
+│   │   ├── layout.tsx      # Root html/body structure & context
+│   │   └── page.tsx        # Homepage (calculator wizard mount)
+│   ├── components/         # Reusable React components
+│   │   ├── ai/             # Google Gemini integration & Tip Cards
+│   │   ├── calculator/     # Calculation steps (Region, Transport, etc.)
+│   │   ├── charts/         # Category distribution donut, bar, and trend charts
+│   │   ├── dashboard/      # Stats displays, comparisons, and goal tracking
+│   │   ├── landing/        # Hero header, CTA, and How-It-Works sections
+│   │   ├── layout/         # Header logo and footer nav bar
+│   │   └── ui/             # Steppers, buttons, cards, and progress bars
+│   ├── lib/                # Core domain utility logic
+│   │   ├── calculator.ts   # Footprint math and scaling formulas
+│   │   ├── comparisons.ts  # Regional average comparisons and benchmarks
+│   │   ├── emission-factors.ts  # Region-specific carbon intensity mappings
+│   │   ├── gemini.ts       # Gemini API client configuration
+│   │   ├── goal.ts         # User carbon reduction goal helpers
+│   │   └── storage.ts      # LocalStorage profile handlers
+│   └── proxy.ts            # CORS-safe request handlers
+├── package.json            # Scripts, dependencies, and metadata
+├── tsconfig.json           # TypeScript configuration details
+└── vitest.config.ts        # Vitest configuration for the testing suite
+```
