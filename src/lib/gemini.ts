@@ -53,20 +53,6 @@ function isRateLimited(ip: string): boolean {
  */
 async function validateRequestHeaders(): Promise<{ error: string; status: number } | null> {
   const headersList = await headers();
-  const contentType = headersList.get('content-type') || '';
-  
-  // Next.js Server Actions send `text/x-component` or `multipart/form-data`.
-  // Standard API requests send `application/json`.
-  // We check for these valid content types to prevent content-type spoofing/abuse.
-  const isValidType = 
-    contentType.includes('application/json') || 
-    contentType.includes('text/x-component') || 
-    contentType.includes('multipart/form-data') ||
-    contentType === ''; // Allow empty content-type from direct function invocations in dev environments
-    
-  if (!isValidType) {
-    return { error: 'Unsupported Media Type', status: 415 };
-  }
   
   const ip = headersList.get('x-forwarded-for') || '127.0.0.1';
   if (isRateLimited(ip)) {
