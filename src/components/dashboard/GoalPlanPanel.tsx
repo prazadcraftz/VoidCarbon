@@ -74,7 +74,7 @@ export function GoalPlanPanel({ result, goal }: GoalPlanPanelProps) {
           {error && (
             <div className="flex items-center gap-2 text-xs text-[#e67e22] bg-[#fef3e8] border border-[#c8e6d0] p-3 rounded-lg">
               <AlertCircle className="h-4 w-4 shrink-0" />
-              <span>Displaying local goal plan recommendations. (AI currently offline)</span>
+              <span>Displaying local goal plan recommendations. ({error})</span>
             </div>
           )}
 

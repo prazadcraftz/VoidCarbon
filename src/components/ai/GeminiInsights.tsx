@@ -55,7 +55,7 @@ export function GeminiInsights({ result }: GeminiInsightsProps) {
         const res = await generateInsights(result);
         
         if (res.error) {
-          setErrorMsg('Displaying local carbon reduction recommendations.');
+          setErrorMsg(`Displaying local carbon reduction recommendations. (${res.error})`);
           setTips(res.fallback || rankTips(result.input));
           setIsLoading(false);
           return;
