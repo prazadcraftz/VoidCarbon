@@ -4,12 +4,12 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-white/5 bg-dark-bg/40 py-8 text-xs text-gray-500" role="contentinfo">
+    <footer className="w-full border-t border-[#c8e6d0]/20 bg-[#0f2318] py-8 text-xs text-white/60" role="contentinfo">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2 max-w-md">
-            <div className="flex items-center gap-1.5 font-semibold text-gray-400">
-              <Globe className="h-4.5 w-4.5 text-brand-cyan" />
+            <div className="flex items-center gap-1.5 font-semibold text-white/90">
+              <Globe className="h-4.5 w-4.5 text-[#c8e6d0]" />
               <span>Carbon Track Methodology</span>
             </div>
             <p className="leading-relaxed">
@@ -21,10 +21,10 @@ export function SiteFooter() {
           </div>
           
           <div className="space-y-2 sm:text-right">
-            <p className="text-gray-400">
+            <p className="text-white/80">
               Powered by <span className="font-semibold text-white">Google Gemini API</span> (gemini-2.5-flash)
             </p>
-            <p className="text-[10px]">
+            <p className="text-[10px] text-white/50">
               &copy; {currentYear} VoidCarbon. Created for Virtual Prompt Wars Challenge 3.
             </p>
           </div>
