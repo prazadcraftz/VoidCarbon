@@ -30,7 +30,7 @@ export const FootprintInputSchema = z.object({
   // Step 2 — Home
   electricityKwhPerMonth: z.number({ message: 'Required field' }).min(0, 'Must be positive').max(5000, 'Max 5000 kWh/month'),
   heatingType:            HeatingTypeSchema,
-  heatingQtyPerMonth:     z.number({ message: 'Required field' }).min(0, 'Must be positive'),
+  heatingQtyPerMonth:     z.number({ message: 'Required field' }).min(0, 'Must be positive').max(10000, 'Max 10,000'),
   householdSize:          z.number({ message: 'Required field' }).int('Must be a whole number').min(1, 'Min 1 person').max(20, 'Max 20 people'),
   renewablePercent:       z.number({ message: 'Required field' }).min(0, 'Min 0%').max(100, 'Max 100%'),
 
@@ -38,8 +38,8 @@ export const FootprintInputSchema = z.object({
   dietType: DietTypeSchema,
 
   // Step 4 — Consumption
-  goodsSpendPerMonth:    z.number({ message: 'Required field' }).min(0, 'Must be positive'),
-  servicesSpendPerMonth: z.number({ message: 'Required field' }).min(0, 'Must be positive'),
+  goodsSpendPerMonth:    z.number({ message: 'Required field' }).min(0, 'Must be positive').max(100000, 'Max 100,000'),
+  servicesSpendPerMonth: z.number({ message: 'Required field' }).min(0, 'Must be positive').max(100000, 'Max 100,000'),
 });
 
 export const CategoryBreakdownSchema = z.object({

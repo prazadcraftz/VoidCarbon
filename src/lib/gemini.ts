@@ -11,8 +11,11 @@ import {
 import type { FootprintResult, Goal, GoalPlanResponse, Tip } from './schemas';
 import { buildGeminiPrompt, buildGoalPlanPrompt } from './prompt-builder';
 import { rankTips } from './tips-engine';
-import { RATE_LIMIT_REQUESTS } from './constants';
+import { RATE_LIMIT_REQUESTS, RATE_LIMIT_WINDOW_MS } from './constants';
 
+if (!process.env.GEMINI_API_KEY) {
+  console.warn('[VoidCarbon] GEMINI_API_KEY is not set — AI features will use static fallbacks.');
+}
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({
   model: 'gemini-2.5-flash',
@@ -31,7 +34,7 @@ const rateLimitStore = new Map<string, RateLimitTracker>();
  */
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
-  const limitWindow = 60000; // 1 minute
+  const limitWindow = RATE_LIMIT_WINDOW_MS;
   
   const tracker = rateLimitStore.get(ip) || { timestamps: [] };
   

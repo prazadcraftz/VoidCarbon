@@ -20,7 +20,8 @@
   --background: #f0faf4;
   --foreground: #3d5c45;
   --heading-color: #1a2e1e;
-  --muted-text: #7a9e82;
+  /* Updated from #7a9e82 (3.2:1 — WCAG AA fail) to #4d7a5a (4.96:1 — WCAG AA pass) */
+  --muted-text: #4d7a5a;
 }
 
 body {
@@ -62,4 +63,21 @@ body {
   border-color: #1a7a4a;
   transform: translateY(-2px);
   box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* Respect the user's motion preference — disables transitions and animations
+   for people with vestibular disorders or motion sensitivity (NFR-04.4). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .glass-panel-hover:hover {
+    transform: none;
+  }
 }

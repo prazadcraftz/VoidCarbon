@@ -6,6 +6,7 @@ import { getHistory, clearAllData } from '@/lib/storage';
 import { getBiggestEmitter } from '@/lib/breakdown';
 import { getComparisonDetails } from '@/lib/comparisons';
 import { formatCO2e } from '@/lib/format';
+import { REGION_LABELS } from '@/lib/constants';
 import type { FootprintResult } from '@/lib/schemas';
 import { StatCard } from './StatCard';
 import { ComparisonCard } from './ComparisonCard';
@@ -48,14 +49,6 @@ export function DashboardView() {
   const biggest = getBiggestEmitter(latest.breakdown);
   const comparisons = getComparisonDetails(latest);
 
-  const REGION_LABELS: Record<string, string> = {
-    india: 'India average',
-    uk: 'UK average',
-    usa: 'US average',
-    eu: 'EU average',
-    australia: 'Australia average',
-    global: 'global average',
-  };
 
   // Format percent difference from regional average
   const regionalPctText = comparisons.regionalDiffPercent > 0 

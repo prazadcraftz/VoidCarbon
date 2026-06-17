@@ -1,7 +1,7 @@
-import React from 'react';
 import type { HeatingType, Region } from '@/lib/schemas';
 import { Flame } from 'lucide-react';
 import { getHeatingTypes } from './form-constants';
+import { NumberInput } from '@/components/ui/NumberInput';
 
 interface HeatingFieldsProps {
   region: Region;
@@ -21,8 +21,8 @@ export function HeatingFields({ region, data, updateData, errors }: HeatingField
     <>
       {/* Heating Type */}
       <div>
-        <label htmlFor="heating" className="flex items-center gap-1.5 text-xs font-semibold text-[#7a9e82] mb-2">
-          <Flame className="h-4 w-4 text-[#7a9e82]" />
+        <label htmlFor="heating" className="flex items-center gap-1.5 text-xs font-semibold text-[#4d7a5a] mb-2">
+          <Flame aria-hidden="true" className="h-4 w-4 text-[#4d7a5a]" />
           Heating source
         </label>
         <select
@@ -42,12 +42,11 @@ export function HeatingFields({ region, data, updateData, errors }: HeatingField
       {/* Heating Qty */}
       {data.heatingType !== 'none' ? (
         <div>
-          <label htmlFor="heatingQty" className="flex items-center gap-1.5 text-xs font-semibold text-[#7a9e82] mb-2">
-            <Flame className="h-4 w-4 text-[#7a9e82]" />
+          <label htmlFor="heatingQty" className="flex items-center gap-1.5 text-xs font-semibold text-[#4d7a5a] mb-2">
+            <Flame aria-hidden="true" className="h-4 w-4 text-[#4d7a5a]" />
             Monthly heating qty ({currentHeating?.unit})
           </label>
-          <input
-            type="number"
+          <NumberInput
             id="heatingQty"
             value={data.heatingQtyPerMonth === 0 ? '' : data.heatingQtyPerMonth}
             onChange={(e) => {
@@ -55,20 +54,19 @@ export function HeatingFields({ region, data, updateData, errors }: HeatingField
               if (val < 0) return;
               updateData({ heatingQtyPerMonth: val });
             }}
-            onKeyDown={(e) => {
-              if (e.key === '-' || e.key === 'e') e.preventDefault();
-            }}
-            className="w-full rounded-[10px] border border-[#c8e6d0] bg-white px-4 py-2.5 text-[15px] text-[#3d5c45] placeholder-[#7a9e82]/50 focus:border-[#1a7a4a] focus:ring-2 focus:ring-[#1a7a4a] focus:outline-none min-h-[44px] transition-all"
+            errorId={errors?.heatingQtyPerMonth ? 'heatingQty-error' : undefined}
             placeholder={`50 ${currentHeating?.unit}`}
-            min="0"
+            min={0}
           />
           {region === 'india' && data.heatingType === 'lpg' && (
-            <p className="text-[10px] text-[#7a9e82] mt-1.5 leading-normal">
+            <p className="text-[10px] text-[#4d7a5a] mt-1.5 leading-normal">
               💡 Suggestion: In India, a standard domestic LPG cylinder is 14.2 kg, which is approximately 26 Litres.
             </p>
           )}
           {errors?.heatingQtyPerMonth ? (
-            <p className="text-xs text-[#e74c3c] mt-1 font-medium">{errors.heatingQtyPerMonth}</p>
+            <p id="heatingQty-error" role="alert" className="text-xs text-[#e74c3c] mt-1 font-medium">
+              {errors.heatingQtyPerMonth}
+            </p>
           ) : null}
         </div>
       ) : <div />}

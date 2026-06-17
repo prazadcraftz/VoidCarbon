@@ -2,6 +2,7 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import type { FootprintResult } from '@/lib/schemas';
+import { PARIS_TARGET_KG } from '@/lib/emission-factors';
 
 interface HistoryTrendChartProps {
   history: FootprintResult[];
@@ -59,9 +60,9 @@ export function HistoryTrendChart({ history }: HistoryTrendChartProps) {
             labelStyle={{ fontWeight: 'bold', color: '#1a2e1e' }}
             formatter={(value: unknown) => [`${Number(value || 0).toLocaleString()} kg CO₂e`, 'Footprint']}
           />
-          {/* Reference Line for the global target (2.1 tonnes = 2100 kg) */}
+          {/* Reference Line for the global 1.5°C target (PARIS_TARGET_KG = 2100 kg CO₂e) */}
           <ReferenceLine 
-            y={2100} 
+            y={PARIS_TARGET_KG} 
             stroke="rgba(26, 122, 74, 0.4)" 
             strokeDasharray="4 4" 
             label={{ 

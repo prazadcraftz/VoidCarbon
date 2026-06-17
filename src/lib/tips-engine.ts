@@ -8,7 +8,19 @@ import {
   CONSUMPTION_FACTORS,
   REGIONAL_CURRENCY,
 } from './emission-factors';
-import { MONTHS_PER_YEAR, WEEKS_PER_YEAR, KILO_CONVERSION_DIVISOR } from './constants';
+import { 
+  MONTHS_PER_YEAR, 
+  WEEKS_PER_YEAR, 
+  KILO_CONVERSION_DIVISOR,
+  EV_MIN_CAR_KM_WEEK,
+  EV_SAVING_THRESHOLD_KG,
+  RENEWABLE_SAVING_THRESHOLD_KG,
+  HEATING_SAVING_THRESHOLD_KG,
+  MIN_GOODS_SPEND,
+  GOODS_SAVING_THRESHOLD_KG,
+  PT_SWAP_MIN_CAR_KM_WEEK,
+  PT_SAVING_THRESHOLD_KG,
+} from './constants';
 import { round } from './number';
 import type { FootprintInput, Tip } from './schemas';
 
@@ -25,12 +37,12 @@ export function rankTips(input: FootprintInput): Tip[] {
   const hSize = input.householdSize;
 
   // 1. Electric Vehicle Tip
-  if ((input.fuelType === 'petrol' || input.fuelType === 'diesel' || input.fuelType === 'hybrid') && input.carKmPerWeek > 10) {
+  if ((input.fuelType === 'petrol' || input.fuelType === 'diesel' || input.fuelType === 'hybrid') && input.carKmPerWeek > EV_MIN_CAR_KM_WEEK) {
     const currentCarFactor = CAR_FACTORS[input.fuelType];
     const evFactor = CAR_FACTORS.electric;
     const saving = round(input.carKmPerWeek * WEEKS_PER_YEAR * (currentCarFactor - evFactor));
     
-    if (saving > 50) {
+    if (saving > EV_SAVING_THRESHOLD_KG) {
       tips.push({
         title: 'Switch to an Electric Vehicle (EV)',
         savingKgCO2e: saving,
@@ -69,7 +81,7 @@ export function rankTips(input: FootprintInput): Tip[] {
     const electricityEmissions = input.electricityKwhPerMonth * MONTHS_PER_YEAR * GRID_INTENSITY[input.region];
     const saving = round((electricityEmissions * (remainingPercent / 100)) / hSize);
     
-    if (saving > 30) {
+    if (saving > RENEWABLE_SAVING_THRESHOLD_KG) {
       tips.push({
         title: 'Switch to a 100% renewable electricity tariff',
         savingKgCO2e: saving,
@@ -85,7 +97,7 @@ export function rankTips(input: FootprintInput): Tip[] {
     const heatingEmissions = input.heatingQtyPerMonth * MONTHS_PER_YEAR * HEATING_FACTORS[input.heatingType];
     const saving = round((heatingEmissions * 0.15) / hSize); // 15% savings from smart thermostat / insulation
     
-    if (saving > 20) {
+    if (saving > HEATING_SAVING_THRESHOLD_KG) {
       tips.push({
         title: 'Lower thermostat by 1°C & improve insulation',
         savingKgCO2e: saving,
@@ -124,11 +136,11 @@ export function rankTips(input: FootprintInput): Tip[] {
   }
 
   // 6. Reduce Goods Spend / Buying Second Hand
-  if (input.goodsSpendPerMonth > 10) {
+  if (input.goodsSpendPerMonth > MIN_GOODS_SPEND) {
     const goodsEmissions = (input.goodsSpendPerMonth * exchangeRate * MONTHS_PER_YEAR * CONSUMPTION_FACTORS.goods) / KILO_CONVERSION_DIVISOR;
     const saving = round(goodsEmissions * 0.20); // 20% reduction
     
-    if (saving > 20) {
+    if (saving > GOODS_SAVING_THRESHOLD_KG) {
       tips.push({
         title: 'Buy second-hand or reduce goods purchases by 20%',
         savingKgCO2e: saving,
@@ -140,12 +152,12 @@ export function rankTips(input: FootprintInput): Tip[] {
   }
 
   // 7. Public Transport swap
-  if (input.carKmPerWeek > 150 && input.fuelType !== 'none') {
+  if (input.carKmPerWeek > PT_SWAP_MIN_CAR_KM_WEEK && input.fuelType !== 'none') {
     const carFactor = CAR_FACTORS[input.fuelType];
     const ptFactor = PUBLIC_TRANSPORT_FACTOR;
     const saving = round(input.carKmPerWeek * 0.25 * WEEKS_PER_YEAR * (carFactor - ptFactor)); // replace 25% of car travel with public transport
     
-    if (saving > 20) {
+    if (saving > PT_SAVING_THRESHOLD_KG) {
       tips.push({
         title: 'Replace 25% of car trips with public transit',
         savingKgCO2e: saving,

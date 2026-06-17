@@ -1,8 +1,8 @@
-import React from 'react';
 import type { FuelType } from '@/lib/schemas';
 import { Car, Train } from 'lucide-react';
 import { FUEL_TYPES } from './form-constants';
 import { FlightFields } from './FlightFields';
+import { NumberInput } from '@/components/ui/NumberInput';
 
 interface TransportStepProps {
   data: {
@@ -21,7 +21,7 @@ export function TransportStep({ data, updateData, errors }: TransportStepProps) 
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-[#1a2e1e]">Transportation habits</h2>
-        <p className="text-xs text-[#3d5c45] mt-1">
+        <p className="text-xs text-[#4d7a5a] mt-1">
           Tell us about your weekly travel and annual flight counts.
         </p>
       </div>
@@ -29,17 +29,16 @@ export function TransportStep({ data, updateData, errors }: TransportStepProps) 
       {/* Car Section */}
       <div className="border-b border-[#c8e6d0] pb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Car className="h-5 w-5 text-[#7a9e82]" />
+          <Car aria-hidden="true" className="h-5 w-5 text-[#4d7a5a]" />
           <h3 className="text-sm font-semibold text-[#1a2e1e]">Car travel</h3>
         </div>
         
         <div className="max-w-sm space-y-4">
           <div>
-            <label htmlFor="carKm" className="block text-xs font-semibold text-[#7a9e82] mb-2">
+            <label htmlFor="carKm" className="block text-xs font-semibold text-[#4d7a5a] mb-2">
               Weekly distance (km)
             </label>
-            <input
-              type="number"
+            <NumberInput
               id="carKm"
               value={data.fuelType === 'none' ? '0' : (data.carKmPerWeek === 0 ? '' : data.carKmPerWeek)}
               disabled={data.fuelType === 'none'}
@@ -48,20 +47,19 @@ export function TransportStep({ data, updateData, errors }: TransportStepProps) 
                 if (val < 0) return;
                 updateData({ carKmPerWeek: val });
               }}
-              onKeyDown={(e) => {
-                if (e.key === '-' || e.key === 'e') e.preventDefault();
-              }}
-              className="w-full rounded-[10px] border border-[#c8e6d0] bg-white px-4 py-2.5 text-[15px] text-[#3d5c45] placeholder-[#7a9e82]/50 focus:border-[#1a7a4a] focus:ring-2 focus:ring-[#1a7a4a] focus:outline-none min-h-[44px] transition-all disabled:bg-[#f0faf4] disabled:text-[#7a9e82] disabled:cursor-not-allowed"
+              errorId={errors?.carKmPerWeek ? 'carKm-error' : undefined}
               placeholder="150"
-              min="0"
+              min={0}
             />
             {errors?.carKmPerWeek ? (
-              <p className="text-xs text-[#e74c3c] mt-1 font-medium">{errors.carKmPerWeek}</p>
+              <p id="carKm-error" role="alert" className="text-xs text-[#e74c3c] mt-1 font-medium">
+                {errors.carKmPerWeek}
+              </p>
             ) : null}
           </div>
 
           <div>
-            <label htmlFor="fuelType" className="block text-xs font-semibold text-[#7a9e82] mb-2">
+            <label htmlFor="fuelType" className="block text-xs font-semibold text-[#4d7a5a] mb-2">
               Fuel type
             </label>
             <select
@@ -94,16 +92,15 @@ export function TransportStep({ data, updateData, errors }: TransportStepProps) 
       {/* Public Transit Section */}
       <div className="border-b border-[#c8e6d0] pb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Train className="h-5 w-5 text-[#7a9e82]" />
+          <Train aria-hidden="true" className="h-5 w-5 text-[#4d7a5a]" />
           <h3 className="text-sm font-semibold text-[#1a2e1e]">Public transport</h3>
         </div>
         
         <div>
-          <label htmlFor="ptKm" className="block text-xs font-semibold text-[#7a9e82] mb-2">
+          <label htmlFor="ptKm" className="block text-xs font-semibold text-[#4d7a5a] mb-2">
             Weekly public transit distance (km)
           </label>
-          <input
-            type="number"
+          <NumberInput
             id="ptKm"
             value={data.publicTransportKm === 0 ? '' : data.publicTransportKm}
             onChange={(e) => {
@@ -111,15 +108,15 @@ export function TransportStep({ data, updateData, errors }: TransportStepProps) 
               if (val < 0) return;
               updateData({ publicTransportKm: val });
             }}
-            onKeyDown={(e) => {
-              if (e.key === '-' || e.key === 'e') e.preventDefault();
-            }}
-            className="w-full max-w-sm rounded-[10px] border border-[#c8e6d0] bg-white px-4 py-2.5 text-[15px] text-[#3d5c45] placeholder-[#7a9e82]/50 focus:border-[#1a7a4a] focus:ring-2 focus:ring-[#1a7a4a] focus:outline-none min-h-[44px] transition-all"
+            errorId={errors?.publicTransportKm ? 'ptKm-error' : undefined}
+            className="max-w-sm"
             placeholder="50"
-            min="0"
+            min={0}
           />
           {errors?.publicTransportKm ? (
-            <p className="text-xs text-[#e74c3c] mt-1 font-medium">{errors.publicTransportKm}</p>
+            <p id="ptKm-error" role="alert" className="text-xs text-[#e74c3c] mt-1 font-medium">
+              {errors.publicTransportKm}
+            </p>
           ) : null}
         </div>
       </div>
