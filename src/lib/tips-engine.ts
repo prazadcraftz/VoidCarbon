@@ -17,7 +17,6 @@ import type { FootprintInput, Tip } from './schemas';
  * with estimated annual CO₂e savings and rationales.
  * 
  * @param input Calculator inputs
- * @param result Calculated footprint result
  * @returns Array of exactly 5 Tip objects sorted by saving descending
  */
 export function rankTips(input: FootprintInput): Tip[] {

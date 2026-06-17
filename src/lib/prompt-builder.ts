@@ -5,6 +5,9 @@ import { GRID_INTENSITY } from './emission-factors';
 
 /**
  * Builds the prompt for personalized carbon footprint reduction insights (5 tips).
+ * 
+ * @param result The calculated footprint result
+ * @returns The formatted prompt string for Gemini
  */
 export function buildGeminiPrompt(result: FootprintResult): string {
   const { input, totalKgCO2e, breakdown } = result;
@@ -75,6 +78,10 @@ Only suggest tips relevant to this user's profile (e.g., do not suggest electric
 
 /**
  * Builds the prompt for a category-level goal achievement plan (4 categories).
+ * 
+ * @param result The calculated footprint result
+ * @param goal The target reduction goal
+ * @returns The formatted prompt string for Gemini
  */
 export function buildGoalPlanPrompt(result: FootprintResult, goal: Goal): string {
   const { input, totalKgCO2e, breakdown } = result;

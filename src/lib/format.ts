@@ -38,7 +38,10 @@ export function formatCurrency(amount: number, region: Region): string {
 }
 
 /**
- * Returns the currency symbol for a region
+ * Returns the currency symbol for a region.
+ * 
+ * @param region Selected geographic region
+ * @returns The currency symbol character (e.g. "£", "₹", "$")
  */
 export function getCurrencySymbol(region: Region): string {
   return REGIONAL_CURRENCY[region].symbol;

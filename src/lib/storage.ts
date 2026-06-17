@@ -12,6 +12,8 @@ const GOAL_KEY = 'eco_goal';
 
 /**
  * Dispatches a custom window event when a quota limit is exceeded.
+ * 
+ * @param e The exception error caught during write
  */
 function handleQuotaError(e: unknown): void {
   const isQuotaError =
@@ -27,6 +29,8 @@ function handleQuotaError(e: unknown): void {
 
 /**
  * Gets the stored footprint input (latest unsaved/saved form answers).
+ * 
+ * @returns Stored FootprintInput or null if empty/corrupted
  */
 export function getStoredInput(): FootprintInput | null {
   if (typeof window === 'undefined') return null;
@@ -48,6 +52,8 @@ export function getStoredInput(): FootprintInput | null {
 
 /**
  * Saves the footprint input.
+ * 
+ * @param input The FootprintInput object to save
  */
 export function saveStoredInput(input: FootprintInput): void {
   if (typeof window === 'undefined') return;
@@ -60,6 +66,8 @@ export function saveStoredInput(input: FootprintInput): void {
 
 /**
  * Gets the historical footprint results array.
+ * 
+ * @returns Array of FootprintResult objects
  */
 export function getHistory(): FootprintResult[] {
   if (typeof window === 'undefined') return [];
@@ -81,6 +89,8 @@ export function getHistory(): FootprintResult[] {
 
 /**
  * Appends a new footprint result to the history, capping at 12 entries.
+ * 
+ * @param result The new FootprintResult to save
  */
 export function saveResult(result: FootprintResult): void {
   if (typeof window === 'undefined') return;
@@ -96,6 +106,8 @@ export function saveResult(result: FootprintResult): void {
 
 /**
  * Gets the user's active goal.
+ * 
+ * @returns The active Goal object or null if not set
  */
 export function getGoal(): Goal | null {
   if (typeof window === 'undefined') return null;
@@ -116,6 +128,8 @@ export function getGoal(): Goal | null {
 
 /**
  * Saves a new goal.
+ * 
+ * @param goal The Goal object to save
  */
 export function saveGoal(goal: Goal): void {
   if (typeof window === 'undefined') return;
@@ -127,7 +141,7 @@ export function saveGoal(goal: Goal): void {
 }
 
 /**
- * Clears a set goal.
+ * Clears a set goal from storage.
  */
 export function deleteGoal(): void {
   if (typeof window === 'undefined') return;
@@ -135,7 +149,7 @@ export function deleteGoal(): void {
 }
 
 /**
- * Clears all user footprint data.
+ * Clears all user footprint and goal data from storage.
  */
 export function clearAllData(): void {
   if (typeof window === 'undefined') return;
