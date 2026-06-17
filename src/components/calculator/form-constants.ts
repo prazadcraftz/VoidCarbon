@@ -1,4 +1,4 @@
-import type { FuelType, HeatingType, Region } from '@/lib/schemas';
+import type { FuelType, HeatingType, Region, FootprintInput } from '@/lib/schemas';
 
 export const STEP_EXPLANATIONS = [
   // Region
@@ -33,3 +33,22 @@ export function getHeatingTypes(region: Region): { value: HeatingType; label: st
     { value: 'none', label: 'None', unit: '-' },
   ];
 }
+
+export const INITIAL_DATA: FootprintInput = {
+  region: 'uk',
+  carKmPerWeek: 0,
+  fuelType: 'none',
+  publicTransportKm: 0,
+  shortHaulFlights: 0,
+  longHaulFlights: 0,
+  electricityKwhPerMonth: 0,
+  heatingType: 'none',
+  heatingQtyPerMonth: 0,
+  householdSize: 1,
+  renewablePercent: 0,
+  dietType: 'omnivore',
+  goodsSpendPerMonth: 0,
+  servicesSpendPerMonth: 0,
+};
+
+export const STEP_LABELS = ['Region', 'Transport', 'Home Utilities', 'Food & Diet', 'Consumption', 'Review'];

@@ -1,4 +1,4 @@
-import { Region } from '@/lib/schemas';
+import type { Region } from '@/lib/schemas';
 import { MapPin } from 'lucide-react';
 
 interface RegionStepProps {

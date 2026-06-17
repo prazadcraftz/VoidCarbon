@@ -11,29 +11,11 @@ import { HomeStep } from './HomeStep';
 import { FoodStep } from './FoodStep';
 import { ConsumptionStep } from './ConsumptionStep';
 import { ReviewStep } from './ReviewStep';
-import { FootprintInput, FootprintInputSchema } from '@/lib/schemas';
+import { FootprintInputSchema } from '@/lib/schemas';
+import type { FootprintInput } from '@/lib/schemas';
 import { calculateFootprint } from '@/lib/calculator';
 import { getStoredInput, saveStoredInput, saveResult } from '@/lib/storage';
-import { STEP_EXPLANATIONS } from './form-constants';
-
-const INITIAL_DATA: FootprintInput = {
-  region: 'uk',
-  carKmPerWeek: 0,
-  fuelType: 'none',
-  publicTransportKm: 0,
-  shortHaulFlights: 0,
-  longHaulFlights: 0,
-  electricityKwhPerMonth: 0,
-  heatingType: 'none',
-  heatingQtyPerMonth: 0,
-  householdSize: 1,
-  renewablePercent: 0,
-  dietType: 'omnivore',
-  goodsSpendPerMonth: 0,
-  servicesSpendPerMonth: 0,
-};
-
-const STEP_LABELS = ['Region', 'Transport', 'Home Utilities', 'Food & Diet', 'Consumption', 'Review'];
+import { STEP_EXPLANATIONS, INITIAL_DATA, STEP_LABELS } from './form-constants';
 
 export function CalculatorForm() {
   const router = useRouter();
