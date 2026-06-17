@@ -61,6 +61,7 @@ async function validateRequestHeaders(): Promise<{ error: string; status: number
   
   const contentType = headersList.get('content-type') || '';
   if (!contentType.includes('application/json') && 
+      !contentType.includes('text/plain') && 
       !contentType.includes('text/x-component') && 
       !contentType.includes('multipart/form-data')) {
     return { error: 'Unsupported Media Type', status: 415 };
