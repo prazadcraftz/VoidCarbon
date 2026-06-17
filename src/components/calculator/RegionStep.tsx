@@ -34,6 +34,7 @@ export function RegionStep({ selectedRegion, onChange, error }: RegionStepProps)
               key={reg.value}
               type="button"
               onClick={() => onChange(reg.value)}
+              aria-pressed={isSelected}
               className={`flex items-center gap-4 rounded-xl border p-5 text-left transition-all ${
                 isSelected
                   ? 'border-2 border-[#1a7a4a] bg-[#e8f8f0] text-[#1a2e1e] shadow-sm scale-[1.01]'

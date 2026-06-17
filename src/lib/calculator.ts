@@ -16,6 +16,9 @@ import type { FootprintInput, FootprintResult, CategoryBreakdown } from './schem
 
 /**
  * Calculates annual transport emissions in kg CO₂e.
+ * 
+ * @param input The validated carbon footprint inputs
+ * @returns Estimated annual transport emissions in kg CO₂e
  */
 export function calculateTransport(input: FootprintInput): number {
   const carEmissions = input.carKmPerWeek * WEEKS_PER_YEAR * CAR_FACTORS[input.fuelType];
@@ -28,6 +31,9 @@ export function calculateTransport(input: FootprintInput): number {
 
 /**
  * Calculates annual home energy emissions in kg CO₂e per person.
+ * 
+ * @param input The validated carbon footprint inputs
+ * @returns Attributed annual home energy emissions in kg CO₂e per person
  */
 export function calculateHomeEnergy(input: FootprintInput): number {
   const electricityEmissions = input.electricityKwhPerMonth * MONTHS_PER_YEAR * GRID_INTENSITY[input.region];
@@ -43,6 +49,9 @@ export function calculateHomeEnergy(input: FootprintInput): number {
 
 /**
  * Calculates annual diet/food emissions in kg CO₂e.
+ * 
+ * @param input The validated carbon footprint inputs
+ * @returns Estimated annual diet/food emissions in kg CO₂e
  */
 export function calculateFood(input: FootprintInput): number {
   return round(DIET_FACTORS[input.dietType]);
@@ -51,6 +60,9 @@ export function calculateFood(input: FootprintInput): number {
 /**
  * Calculates annual consumption emissions in kg CO₂e based on spend,
  * converting local currency to GBP first before applying the per-£1000 factors.
+ * 
+ * @param input The validated carbon footprint inputs
+ * @returns Estimated annual consumption emissions in kg CO₂e
  */
 export function calculateConsumption(input: FootprintInput): number {
   const exchangeRate = REGIONAL_CURRENCY[input.region].exchangeRate;

@@ -1,4 +1,4 @@
-import { FootprintInput } from '@/lib/schemas';
+import type { FootprintInput } from '@/lib/schemas';
 import { getCurrencySymbol } from '@/lib/format';
 
 interface ReviewStepProps {

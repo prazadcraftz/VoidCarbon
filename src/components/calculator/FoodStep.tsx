@@ -1,4 +1,4 @@
-import { DietType } from '@/lib/schemas';
+import type { DietType } from '@/lib/schemas';
 import { Apple, UtensilsCrossed } from 'lucide-react';
 
 interface FoodStepProps {
@@ -33,6 +33,7 @@ export function FoodStep({ selectedDiet, onChange, error }: FoodStepProps) {
               key={diet.value}
               type="button"
               onClick={() => onChange(diet.value)}
+              aria-pressed={isSelected}
               className={`flex items-start gap-4 rounded-xl border p-4.5 text-left transition-all ${
                 isSelected
                   ? 'border-2 border-[#1a7a4a] bg-[#e8f8f0] text-[#1a2e1e] shadow-sm scale-[1.01]'

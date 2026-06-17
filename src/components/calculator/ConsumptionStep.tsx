@@ -1,5 +1,5 @@
 import React from 'react';
-import { Region } from '@/lib/schemas';
+import type { Region } from '@/lib/schemas';
 import { getCurrencySymbol } from '@/lib/format';
 import { ShoppingBag, Briefcase } from 'lucide-react';
 
