@@ -30,6 +30,7 @@ export function CategoryBarChart({ breakdown }: CategoryBarChartProps) {
         <BarChart
           data={data}
           margin={{ top: 20, right: 10, left: -10, bottom: 5 }}
+          aria-hidden="true"
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#c8e6d0" vertical={false} />
           <XAxis 

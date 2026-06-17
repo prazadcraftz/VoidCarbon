@@ -30,7 +30,7 @@ export function CategoryDonutChart({ breakdown }: CategoryDonutChartProps) {
       aria-label="Donut chart showing percentage emission breakdown by category."
     >
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
+        <PieChart aria-hidden="true">
           <Pie
             data={data}
             cx="50%"

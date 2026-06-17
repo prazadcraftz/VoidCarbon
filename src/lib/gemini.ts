@@ -1,14 +1,14 @@
 'use server';
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { createStreamableValue } from '@ai-sdk/rsc';
+import { createStreamableValue, type StreamableValue } from '@ai-sdk/rsc';
 import { headers } from 'next/headers';
 import {
   FootprintResultSchema,
   GoalSchema,
   GoalPlanResponseSchema,
 } from './schemas';
-import type { FootprintResult, Goal, GoalPlanResponse } from './schemas';
+import type { FootprintResult, Goal, GoalPlanResponse, Tip } from './schemas';
 import { buildGeminiPrompt, buildGoalPlanPrompt } from './prompt-builder';
 import { rankTips } from './tips-engine';
 import { RATE_LIMIT_REQUESTS } from './constants';
@@ -57,6 +57,13 @@ async function validateRequestHeaders(): Promise<{ error: string; status: number
   const ip = headersList.get('x-forwarded-for') || '127.0.0.1';
   if (isRateLimited(ip)) {
     return { error: 'Too Many Requests', status: 429 };
+  }
+  
+  const contentType = headersList.get('content-type') || '';
+  if (!contentType.includes('application/json') && 
+      !contentType.includes('text/x-component') && 
+      !contentType.includes('multipart/form-data')) {
+    return { error: 'Unsupported Media Type', status: 415 };
   }
   
   return null;
@@ -112,7 +119,12 @@ function getStaticGoalPlanFallback(result: FootprintResult, goal: Goal): GoalPla
  * @param result The calculated footprint result
  * @returns A streamable value containing the accumulated tips JSON
  */
-export async function generateInsights(result: FootprintResult) {
+export async function generateInsights(result: FootprintResult): Promise<{
+  output: StreamableValue<string> | null;
+  error: string | null;
+  status: number;
+  fallback?: Tip[];
+}> {
   // Validate headers, rate limits, content type
   const headerValidationError = await validateRequestHeaders();
   if (headerValidationError) {

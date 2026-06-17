@@ -29,6 +29,7 @@ export function HistoryTrendChart({ history }: HistoryTrendChartProps) {
         <LineChart
           data={data}
           margin={{ top: 15, right: 10, left: -15, bottom: 5 }}
+          aria-hidden="true"
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#c8e6d0" vertical={false} />
           <XAxis 

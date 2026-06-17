@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -9,6 +9,17 @@ export function SiteHeader() {
   const searchParams = useSearchParams();
   const currentView = searchParams.get('view') || 'home';
   const [isOpen, setIsOpen] = useState(false);
+  const [quotaExceeded, setQuotaExceeded] = useState(false);
+
+  useEffect(() => {
+    const handleQuota = () => {
+      setQuotaExceeded(true);
+    };
+    window.addEventListener('storage-quota-exceeded', handleQuota);
+    return () => {
+      window.removeEventListener('storage-quota-exceeded', handleQuota);
+    };
+  }, []);
 
   const navLinks = [
     { view: 'home', href: '/?view=home', label: 'Home' },
@@ -17,7 +28,16 @@ export function SiteHeader() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0f2318] border-b border-white/5 h-14">
+    <>
+      {quotaExceeded && (
+        <div className="bg-[#b91c1c] text-white text-xs px-4 py-2.5 text-center font-medium flex justify-between items-center z-[100] relative border-b border-red-800">
+          <span>⚠️ Storage quota exceeded! Your progress or settings cannot be saved locally. Please free up some disk/browser space.</span>
+          <button onClick={() => setQuotaExceeded(false)} className="text-white hover:text-white/80 font-bold ml-4" aria-label="Dismiss storage warning">
+            Dismiss
+          </button>
+        </div>
+      )}
+      <header className="sticky top-0 z-50 w-full bg-[#0f2318] border-b border-white/5 h-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex h-full items-center justify-between">
           {/* Logo Section */}
@@ -110,5 +130,6 @@ export function SiteHeader() {
         </nav>
       )}
     </header>
+    </>
   );
 }
