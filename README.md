@@ -46,6 +46,50 @@ A 6-step responsive wizard guides the user through assessing their carbon impact
 
 ---
 
+## 🧱 System Architecture
+
+VoidCarbon functions as a hybrid client-heavy web application with a secure serverless backend layer. All carbon footprint calculations are computed directly inside the user's browser for maximum performance and offline functionality. The Google Gemini API is accessed securely via Next.js Server Actions.
+
+![System Architecture](/public/system_architecture.png)
+
+### Frontend Architecture
+* **Framework**: Built on **Next.js 16 (App Router)** with **React 19** and **TypeScript** (strict mode).
+* **Styling**: Nature-inspired design system with high-contrast mint and forest green palettes, powered by **Tailwind CSS v4** and modern responsive layout controls.
+* **Calculations**: Computed entirely client-side using regional emission constants mapped under [emission-factors.ts](file:///D:/Android%20Studio/VoidCarbon/src/lib/emission-factors.ts).
+* **Charts**: Lazy-loaded **Recharts** charts (donut, bar, trend lines) are loaded dynamically to keep initial bundles lightweight.
+
+### Backend Architecture
+* **Runtime**: App Server side of Next.js, containerized and deployed on **Google Cloud Run**.
+* **Server Actions**: Uses Next.js Server Actions (`generateInsights` and `generateGoalPlan` in [gemini.ts](file:///D:/Android%20Studio/VoidCarbon/src/lib/gemini.ts)) to request tips and goal roadmaps.
+* **Security & Rate Limiting**: Employs an IP-based sliding window rate-limiter (capped at 10 requests per minute) and request header validators to prevent API abuse.
+* **API Integration**: Integrates directly with the **Google Gemini API** (`gemini-2.5-flash` model) to stream personalized reduction recommendations. Includes offline static fallbacks.
+
+---
+
+## 🗄️ Database Schema & Storage Model
+
+To maintain complete user data privacy, VoidCarbon uses browser **`localStorage`** as its persistence layer. No user footprint profile data is sent to a server-side database.
+
+![Database Schema](/public/database_schema.png)
+
+All data reads and writes are validated using **Zod Schemas** ([schemas.ts](file:///D:/Android%20Studio/VoidCarbon/src/lib/schemas.ts)) to guarantee structure validation and data integrity.
+
+### 🔑 LocalStorage Key Mapping
+
+| Key | Target Schema | Description |
+| :--- | :--- | :--- |
+| `eco_input` | `FootprintInputSchema` | Stores active or latest draft inputs from the multi-step calculator wizard. |
+| `eco_history` | `z.array(FootprintResultSchema)` | Stores historical audits, capped at a maximum of **12 monthly entries**. |
+| `eco_goal` | `GoalSchema` | Stores the user's active reduction target footprint and date. |
+
+### 📊 Data Schema Definitions (Zod)
+
+* **`FootprintInputSchema`**: Captures user inputs (transport mileage, fuel/heating types, electricity draw, diet categories, and goods/services monthly expenditures).
+* **`FootprintResultSchema`**: Embeds a copy of `FootprintInput`, generated `CategoryBreakdown` (computed kg CO₂e for transport, home energy, food, consumption), regional benchmarks, and the 2.1 t CO₂e Paris target.
+* **`GoalSchema`**: Tracks target reductions (`targetKgCO2e`), start/baseline values, deadlines, and creation timestamps.
+
+---
+
 ## 📝 Assumptions Made
 
 1. **Extrapolations**: Daily commutes, weekly travel habits, and monthly home utility payments are scaled to estimate total **annual** carbon footprints.
